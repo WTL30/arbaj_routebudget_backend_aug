@@ -128,7 +128,7 @@ setBroadcastGPS(broadcastGPS);
 setLatestGPS(latestGPS);
 
 // PORT
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3005;
 
 // Middleware
 app.use(cors({
@@ -171,7 +171,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const masterAdminRoutes = require("./routes/masterRoutes");
 const forpassRoutes = require("./routes/forPassRoutes");
 const servicingRoutes = require("./routes/servicing");
-
+const fasttagRoutes = require("./routes/fasttagRoutes");
 // Apply Routes
 
 // Subadmin and Admin Routes
@@ -216,6 +216,9 @@ app.post("/api/ai-response", async (req, res) => {
     res.status(500).json({ error: "Failed to generate response" });
   }
 });
+
+
+app.use("/api/fasttag", fasttagRoutes);
 
 // WebSocket server
 // setupWebSocketServers(server);

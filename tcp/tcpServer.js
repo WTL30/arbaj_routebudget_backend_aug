@@ -925,6 +925,7 @@ const server = net.createServer((socket) => {
       if (protocol === "01") {
         // Protocol 01: Login
         const imeiHex = hex.substring(8, 24); // Extract IMEI from the hex
+        console.log("imeiHex of GPS",imeiHex)
         const imei = decodeIMEI(imeiHex);
         const serialNumber = hex.substring(24, 28); // Extract serial number
         
@@ -1104,10 +1105,13 @@ const server = net.createServer((socket) => {
   });
 });
 
-server.listen(4000, () => {
-  console.log("🚀 TCP Server listening on port 4000");
+const tcpPort = process.env.TCP_PORT || 4000;
+const tcpHost = process.env.TCP_HOST || '0.0.0.0';
+server.listen(tcpPort, tcpHost, () => {
+  console.log(`🚀 TCP Server listening on ${tcpHost}:${tcpPort}`);
 });
 
+// 4100
 /**only keep seeing keep connection alive (poor performace) */
 // const net = require("net");
 // const GpsLocation = require("../models/GpsLocation");
