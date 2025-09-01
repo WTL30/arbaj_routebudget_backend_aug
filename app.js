@@ -97,13 +97,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-require('./tcp/tcpServer.js')
 const dotenv = require("dotenv");
 const createError = require("http-errors");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const path = require("path");
-const  OpenAI =require("openai");
+const OpenAI = require("openai");
 const bodyParser = require("body-parser");
 const http = require("http");
 
@@ -111,21 +110,9 @@ const {connectDB , sequelize} = require("./config/db.js")
 
 dotenv.config();
 
-const {setupWebSocketServers} = require("./routes/websocketRoutes")
-const { setupWebSocketServer } = require("./routes/websocketRoute");
-
-console.log("setupWebSocketServer:", setupWebSocketServer); 
-
-const { setBroadcastGPS, setLatestGPS } = require("./websocketInstance");
-
 // Initialize Express app and server
 const app = express();
 const server = http.createServer(app);
-
-
-const { broadcastGPS, latestGPS } = setupWebSocketServer(server);
-setBroadcastGPS(broadcastGPS);
-setLatestGPS(latestGPS);
 
 // PORT
 const PORT = process.env.PORT || 3005;
@@ -220,8 +207,7 @@ app.post("/api/ai-response", async (req, res) => {
 
 app.use("/api/fasttag", fasttagRoutes);
 
-// WebSocket server
-// setupWebSocketServers(server);
+// WebSocket server is managed as a separate PM2 process (see websocket/index.js)
 
 // Fallback for unknown routes
 app.use((req, res, next) => {

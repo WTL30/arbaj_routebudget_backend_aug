@@ -1,6 +1,24 @@
 module.exports = {
   apps: [
     {
+      name: "gps-api",
+      script: "app.js",
+      cwd: __dirname,
+      instances: 1,
+      exec_mode: "fork",
+      watch: false,
+      autorestart: true,
+      max_memory_restart: "512M",
+      time: true,
+      env: {
+        NODE_ENV: "production",
+        PORT: "3005"
+      },
+      env_production: {
+        NODE_ENV: "production"
+      }
+    },
+    {
       name: "gps-tcp",
       script: "tcp/tcpServer.js",
       cwd: __dirname,
